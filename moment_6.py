@@ -5,8 +5,8 @@ import aplpy
 import pylab
 import matplotlib
 
-fname = "NGC2903_12CO21_clean_12m_natural.pbcor.kelvin.fits"
-fname_new = "NGC2903_12CO21_clean_12m_natural_mom6.fits"
+fname = ".fits"
+fname_new = "mom6.fits"
 
 hdu = fits.open(fname)[0]  #[0] => primary HDU(header and data)
 
@@ -49,8 +49,8 @@ fig.add_scalebar(length=(2000.0/3600)/43,label='2$\,$kpc',linewidth=1.,color='bl
 fig.recenter(143.042,21.504,width=0.0715103,height=0.0943856)  #degrees
 fig.tick_labels.set_font(size=12) 
 fig.ticks.set_color("black")
-fig.add_label(0.15,0.95,"NGC2903",relative=True,color='black',family="serif",size=20)
+fig.add_label(0.15,0.95,"",relative=True,color='black',family="serif",size=20)
 
-fig.savefig('NGC2903_12CO21_clean_12m_natural.pbcor.kelvin_mon6_python.pdf',dpi=200)
+fig.savefig('_mon6_python.pdf',dpi=200)
 
 
