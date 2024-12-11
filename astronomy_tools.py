@@ -50,13 +50,13 @@ def make_new_hdu_integ(hdu, v_start_ch, v_end_ch, w): # 指定速度積分強度
     return new_hdu
 
 
-def plot_selected_channel(data, start_ch=None, end_ch=None):#data_shape=(depth, width, height), plot mean intensity
+def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50):#data_shape=(depth, width, height)
     plt.figure(figsize=(6, 6))
     mean_data = np.nanmean(data, axis=(1, 2))
     
     plt.plot(np.arange(len(mean_data)), mean_data, "k")
     plt.xlabel("Channel")
-    plt.xticks(np.arange(0, len(mean_data), 50), fontsize=10)
+    plt.xticks(np.arange(0, len(mean_data), grid), fontsize=8)
     plt.ylabel("Mean Intensity [K]")
 
     if start_ch is not None:
@@ -66,7 +66,7 @@ def plot_selected_channel(data, start_ch=None, end_ch=None):#data_shape=(depth, 
 
     plt.grid()
     plt.legend()
-    plt.title("", fontsize=14)
+    plt.title(str(tittle), fontsize=14)
 
     plt.show()
 
