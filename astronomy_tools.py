@@ -1,3 +1,16 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import copy
+
+import astropy.io.fits as fits
+from astropy.wcs import WCS
+from astropy.coordinates import SkyCoord
+import astropy.units as u
+
+import aplpy
+
+
+
 def v2ch(v, w): # v(km/s)をchに変える
     x_tempo, y_tempo, v_tempo   = w.wcs_pix2world(0, 0, 0, 0)
     x_ch, y_ch, v_ch   = w.wcs_world2pix(x_tempo, y_tempo, v*1000.0, 0)
@@ -59,5 +72,17 @@ def plot_selected_channel(data, start_ch=None, end_ch=None):#data_shape=(depth, 
     plt.show()
 
     
-    
+
+def astro_image(hdu):#図の描画(aplpy)
+    fig=aplpy.FITSFigure(hdu)
+    fig.show_colorscale(cmap='nipy_spectral',stretch='linear')
+    fig.add_colorbar()
+    fig.add_beam(color='k')
+    fig.colorbar.set_axis_label_text("[ K ]")
+    fig.colorbar.set_axis_label_font(size=15)
+    # fig.add_scalebar(length=(2000.0/3600)/43,label='2$\,$kpc',linewidth=1.,color='black',corner="bottom left")
+    # fig.recenter(143.042,21.504,width=0.0715103,height=0.0943856)  #degrees
+    fig.tick_labels.set_font(size=12) 
+    fig.ticks.set_color("black")
+    # fig.add_label(0.15,0.95,"",relative=True,color='black',family="serif",size=20)
     
