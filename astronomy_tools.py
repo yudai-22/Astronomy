@@ -6,7 +6,6 @@ import astropy.io.fits as fits
 from astropy.wcs import WCS
 from astropy.coordinates import SkyCoord
 import astropy.units as u
-
 import aplpy
 
 
