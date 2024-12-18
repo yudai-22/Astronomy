@@ -53,7 +53,7 @@ def make_new_hdu_integ(hdu, v_start_ch, v_end_ch, w): # 指定速度積分強度
     return new_hdu
 
 
-def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50):#data_shape=(depth, width, height)
+def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50, savefig = False):#data_shape=(depth, width, height)
     plt.figure(figsize=(6, 6))
     mean_data = np.nanmean(data, axis=(1, 2))
     
@@ -70,6 +70,9 @@ def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50
     plt.grid()
     plt.legend()
     plt.title(str(tittle), fontsize=14)
+    
+    if savefig == True:
+        plt.savefig(f"{str(tittle)}.png")
 
     plt.show()
 
