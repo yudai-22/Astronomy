@@ -26,6 +26,12 @@ def ch2v(ch, w):  # チャンネル番号を視線速度 (v: km/s) に変換
     return v_kms
 
 
+def galactic_to_icrs(lon, lat):  # 銀経銀緯を赤経赤緯へ
+    coord_galactic = SkyCoord(l=lon * u.deg, b=lat * u.deg, frame='galactic')  # 銀河座標系
+    icrs = coord_galactic.icrs  # ICRS座標系(J2000)
+    return icrs.ra.deg, icrs.dec.deg
+
+
 def icrs_to_galactic(ra, dec):#赤経赤緯を銀経銀緯へ
     coord_icrs = SkyCoord(ra=ra * u.deg, dec=dec * u.deg, frame='icrs')  # ICRS座標系(J2000)
     galactic = coord_icrs.galactic
