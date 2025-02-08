@@ -89,14 +89,28 @@ def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50
     
 
 def astro_image(hdu):#図の描画(aplpy)
+    gc_distance = 1400
+    scale_per_pc = np.rad2deg(np.arcsin(1/gc_distance))
+    print(scale_per_pc)
+    
     fig=aplpy.FITSFigure(hdu)
-    fig.show_colorscale(cmap='nipy_spectral',stretch='linear')
+    
+    fig.show_colorscale(cmap="nipy_spectral", stretch='linear')
+    fig.set_nan_color("black")
     fig.add_colorbar()
-    fig.add_beam(color='k')
-    fig.colorbar.set_axis_label_text("[ K ]")
+    fig.colorbar.set_location('right')
+    fig.colorbar.set_axis_label_text("[K km s⁻¹]")
     fig.colorbar.set_axis_label_font(size=15)
-    # fig.add_scalebar(length=(2000.0/3600)/43,label='2$\,$kpc',linewidth=1.,color='black',corner="bottom left")
-    # fig.recenter(143.042,21.504,width=0.0715103,height=0.0943856)  #degrees
-    fig.tick_labels.set_font(size=12) 
+    
+    # fig.tick_labels.set_xformat("dd.d")
+    fig.tick_labels.set_font(size=15) 
     fig.ticks.set_color("black")
-    # fig.add_label(0.15,0.95,"",relative=True,color='black',family="serif",size=20)
+    fig.axis_labels.set_font(size=15)
+    
+    fig.add_scalebar(scale_per_pc*10) # スケールバーの長さ（単位は座標系に依存）
+    fig.scalebar.set_label('10pc')
+    fig.scalebar.set_color('w')
+    fig.scalebar.set_linewidth(2)
+    fig.scalebar.set_font(size=15) 
+    
+    # plt.savefig("Cygnus-X_NRO45m.png")
