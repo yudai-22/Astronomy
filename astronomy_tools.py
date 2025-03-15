@@ -50,6 +50,31 @@ def make_new_hdu_integ(hdu, v_start_ch, v_end_ch, w): # 指定速度積分強度
     return new_hdu
 
 
+def make_moment8(fn,sv,wv,kernel=1):
+    def make_tpeak(data,head,sv=0.,wv=0.1,dv=0.1): #velocity in km/s
+        sc = np.where(((vaxis-sv)**2.) == np.nanmin((vaxis-sv)**2.))[0][0]
+        wc = int(round(wv/dv))
+        print(sc,sc+wc)
+        integ = np.nanmax(data[sc:sc+wc,:,:],axis=0)
+        h2d = head.copy()
+        h2d.pop('C*3')
+        h2d.pop('PC*')
+        h2d.pop('NAXIS3')
+        h2d.update(NAXIS=2)
+        nhdu = fits.PrimaryHDU(integ,h2d)
+        return nhdu, sv
+    mhdu = fits.open(fn)[0]  #astropy
+    md = mhdu.data
+    mh = mhdu.header
+    cube = SpectralCube.read(fn)
+    vaxis = cube.spectral_axis.to_value(u.km/u.s)
+    dv = abs(mh.get('CDELT3'))/1000.
+    nhdu, sv = make_tpeak(md,mh,sv=sv,wv=wv,dv=dv)
+    fname = os.path.splitext(fn)[0]
+    name = fname+"_"+str(sv)+"-"+str(sv+wv)+'km.tpeak.fits'
+    nhdu.writeto(name,overwrite=True)
+
+
 def plot_selected_channel(data, start_ch=None, end_ch=None, tittle=None, grid=50):#data_shape=(depth, width, height)
     plt.figure(figsize=(6, 6))
     mean_data = np.nanmean(data, axis=(1, 2))
